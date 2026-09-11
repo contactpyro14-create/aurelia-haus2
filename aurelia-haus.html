@@ -1,0 +1,2253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <title>AURELIA HAUS — Hair Atelier</title>
+  <meta
+    name="description"
+    content="AURELIA HAUS — Contemporary hair artistry in Lagos."
+  >
+
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --paper: #ebe4d8;
+      --white: #fffdf9;
+      --ink: #211c19;
+      --wine: #633d43;
+      --muted: #81756d;
+      --line: rgba(33, 28, 25, .14);
+
+      --header-height: 76px;
+      --ease: cubic-bezier(.22, .8, .2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    ::selection {
+      background: var(--wine);
+      color: var(--white);
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    .section {
+      padding: 120px 0;
+    }
+
+    .section-heading {
+      max-width: 760px;
+      margin-bottom: 60px;
+    }
+
+    .section-heading h2 {
+      margin-top: 18px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      font-size: clamp(44px, 6vw, 82px);
+      line-height: .95;
+      letter-spacing: -.05em;
+    }
+
+    .section-heading p {
+      max-width: 570px;
+      margin-top: 25px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .btn {
+      min-height: 50px;
+      padding: 0 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      font-size: 10px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      transition: .3s var(--ease);
+    }
+
+    .btn:hover {
+      background: var(--ink);
+      color: var(--cream);
+      transform: translateY(-2px);
+    }
+
+    .btn-dark {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .btn-dark:hover {
+      background: var(--wine);
+      color: var(--white);
+    }
+
+
+    /* =====================================================
+       HEADER
+       ===================================================== */
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: var(--header-height);
+      z-index: 3000;
+
+      border-bottom: 1px solid transparent;
+
+      transition:
+        background .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease;
+    }
+
+    .site-header.scrolled {
+      background: rgba(245, 240, 232, .95);
+      border-color: var(--line);
+      box-shadow: 0 8px 30px rgba(33, 28, 25, .05);
+      backdrop-filter: blur(14px);
+    }
+
+    .header-inner {
+      width: min(1280px, calc(100% - 40px));
+      height: 100%;
+      margin: auto;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 21px;
+      letter-spacing: .16em;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .desktop-nav a {
+      position: relative;
+      font-size: 10px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .desktop-nav a:not(.nav-book)::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -7px;
+      width: 100%;
+      height: 1px;
+      background: currentColor;
+
+      transform: scaleX(0);
+      transform-origin: right;
+
+      transition: transform .3s var(--ease);
+    }
+
+    .desktop-nav a:not(.nav-book):hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .nav-book {
+      min-height: 40px;
+      padding: 0 17px;
+      border: 1px solid var(--ink);
+    }
+
+    .nav-book:hover {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .menu-button {
+      display: none;
+      position: relative;
+      width: 46px;
+      height: 46px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      z-index: 4000;
+    }
+
+    .menu-button span {
+      position: absolute;
+      left: 11px;
+      width: 24px;
+      height: 1px;
+      background: var(--ink);
+      transition: transform .3s var(--ease);
+    }
+
+    .menu-button span:first-child {
+      top: 19px;
+    }
+
+    .menu-button span:last-child {
+      top: 27px;
+    }
+
+    .menu-button.active span:first-child {
+      top: 23px;
+      transform: rotate(45deg);
+    }
+
+    .menu-button.active span:last-child {
+      top: 23px;
+      transform: rotate(-45deg);
+    }
+
+
+    /* =====================================================
+       MOBILE DRAWER
+       IMPORTANT:
+       Completely separate from the header.
+       ===================================================== */
+
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 3500;
+
+      background: rgba(33, 28, 25, .42);
+      backdrop-filter: blur(4px);
+
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+
+      transition:
+        opacity .28s ease,
+        visibility 0s linear .28s;
+    }
+
+    .mobile-overlay.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+
+      transition:
+        opacity .28s ease,
+        visibility 0s linear 0s;
+    }
+
+    .mobile-drawer {
+      position: fixed;
+
+      top: 0;
+      right: 0;
+      bottom: 0;
+
+      width: min(390px, 88vw);
+
+      height: 100vh;
+      height: 100dvh;
+
+      z-index: 3600;
+
+      background: var(--cream);
+
+      padding:
+        calc(var(--header-height) + 45px)
+        38px
+        35px;
+
+      display: flex;
+      flex-direction: column;
+
+      transform: translate3d(100%, 0, 0);
+
+      visibility: hidden;
+      pointer-events: none;
+
+      overflow-y: auto;
+      overscroll-behavior: contain;
+
+      box-shadow: -25px 0 70px rgba(33, 28, 25, .14);
+
+      transition:
+        transform .38s var(--ease),
+        visibility 0s linear .38s;
+    }
+
+    .mobile-drawer.open {
+      transform: translate3d(0, 0, 0);
+
+      visibility: visible;
+      pointer-events: auto;
+
+      transition:
+        transform .38s var(--ease),
+        visibility 0s linear 0s;
+    }
+
+    .drawer-label {
+      margin-bottom: 35px;
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .drawer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .drawer-links a {
+      display: block;
+      padding: 13px 0;
+
+      border-bottom: 1px solid var(--line);
+
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(28px, 8vw, 42px);
+      line-height: 1;
+
+      transition:
+        color .25s ease,
+        padding-left .25s var(--ease);
+    }
+
+    .drawer-links a:hover {
+      color: var(--wine);
+      padding-left: 8px;
+    }
+
+    .drawer-book {
+      margin-top: 32px;
+      width: 100%;
+    }
+
+    .drawer-footer {
+      margin-top: auto;
+      padding-top: 35px;
+
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+
+    /* =====================================================
+       HERO
+       ===================================================== */
+
+    .hero {
+      min-height: 100svh;
+      padding-top: var(--header-height);
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .hero-copy {
+      min-height: calc(100svh - var(--header-height));
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 80px clamp(30px, 6vw, 90px);
+    }
+
+    .hero-copy h1 {
+      max-width: 700px;
+      margin-top: 25px;
+
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+
+      font-size: clamp(62px, 8.5vw, 130px);
+      line-height: .82;
+      letter-spacing: -.07em;
+    }
+
+    .hero-copy h1 em {
+      color: var(--wine);
+      font-style: italic;
+    }
+
+    .hero-copy p {
+      max-width: 480px;
+      margin-top: 35px;
+
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 38px;
+    }
+
+    .hero-note {
+      margin-top: 55px;
+
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .hero-image {
+      position: relative;
+      min-height: calc(100svh - var(--header-height));
+
+      overflow: hidden;
+
+      background:
+        linear-gradient(135deg, #c8bcb0, #806d63);
+    }
+
+    .hero-image img {
+      transition: transform 1s var(--ease);
+    }
+
+    .hero:hover .hero-image img {
+      transform: scale(1.025);
+    }
+
+    .hero-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          to top,
+          rgba(33, 28, 25, .22),
+          transparent 50%
+        );
+    }
+
+    .hero-caption {
+      position: absolute;
+      z-index: 2;
+      right: 28px;
+      bottom: 28px;
+
+      color: white;
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+
+    /* =====================================================
+       MARQUEE
+       ===================================================== */
+
+    .marquee {
+      overflow: hidden;
+
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+
+      background: var(--paper);
+    }
+
+    .marquee-track {
+      width: max-content;
+
+      display: flex;
+      align-items: center;
+      gap: 42px;
+
+      padding: 18px 0;
+
+      animation: marquee 25s linear infinite;
+    }
+
+    .marquee-track span {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      white-space: nowrap;
+    }
+
+    .marquee-track i {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--wine);
+      flex-shrink: 0;
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+
+    /* =====================================================
+       ABOUT
+       ===================================================== */
+
+    .intro {
+      background: var(--white);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: .7fr 1.3fr;
+      gap: 80px;
+    }
+
+    .intro-stamp {
+      width: 120px;
+      height: 120px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid var(--line);
+      border-radius: 50%;
+
+      font-size: 9px;
+      line-height: 1.7;
+      letter-spacing: .14em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .intro-copy h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(40px, 5vw, 68px);
+      line-height: 1;
+      font-weight: 400;
+      letter-spacing: -.05em;
+    }
+
+    .intro-copy h2 em {
+      color: var(--wine);
+    }
+
+    .intro-copy p {
+      max-width: 650px;
+      margin-top: 28px;
+
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+
+    /* =====================================================
+       SERVICES
+       ===================================================== */
+
+    .services {
+      background: var(--cream);
+    }
+
+    .service-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .service-row {
+      display: grid;
+      grid-template-columns: 80px 1fr 220px 100px;
+      gap: 20px;
+      align-items: center;
+
+      padding: 25px 0;
+
+      border-bottom: 1px solid var(--line);
+
+      transition:
+        padding .3s var(--ease),
+        background .3s ease;
+    }
+
+    .service-row:hover {
+      padding-left: 16px;
+      padding-right: 16px;
+      background: rgba(255,255,255,.35);
+    }
+
+    .service-number {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .15em;
+    }
+
+    .service-name {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(22px, 3vw, 34px);
+    }
+
+    .service-desc {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .service-price {
+      text-align: right;
+      font-size: 11px;
+      letter-spacing: .08em;
+    }
+
+
+    /* =====================================================
+       LOOKS
+       ===================================================== */
+
+    .looks {
+      background: var(--paper);
+    }
+
+    .look-grid {
+      display: grid;
+      grid-template-columns: 1fr .72fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .look-card:nth-child(2) {
+      margin-top: 100px;
+    }
+
+    .look-card:nth-child(3) {
+      margin-top: 35px;
+    }
+
+    .look-image {
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: #a99b91;
+    }
+
+    .look-card img {
+      transition: transform .8s var(--ease);
+    }
+
+    .look-card:hover img {
+      transform: scale(1.045);
+    }
+
+    .look-info {
+      padding-top: 18px;
+    }
+
+    .look-info h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      font-size: 23px;
+    }
+
+    .look-info p {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+
+    /* =====================================================
+       ATELIER
+       ===================================================== */
+
+    .atelier {
+      background: var(--white);
+    }
+
+    .atelier-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 70px;
+      align-items: center;
+    }
+
+    .atelier-image {
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: #b7aaa0;
+    }
+
+    .atelier-copy h2 {
+      margin-top: 18px;
+
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 5vw, 70px);
+      line-height: .98;
+      font-weight: 400;
+      letter-spacing: -.05em;
+    }
+
+    .atelier-copy p {
+      margin-top: 25px;
+
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .atelier-signature {
+      margin-top: 45px;
+
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-style: italic;
+    }
+
+
+    /* =====================================================
+       RITUAL
+       ===================================================== */
+
+    .ritual {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .ritual .eyebrow {
+      color: rgba(245,240,232,.6);
+    }
+
+    .ritual-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+
+      border-top: 1px solid rgba(245,240,232,.18);
+    }
+
+    .ritual-item {
+      padding: 30px 22px 30px 0;
+
+      border-right: 1px solid rgba(245,240,232,.18);
+    }
+
+    .ritual-item:not(:first-child) {
+      padding-left: 22px;
+    }
+
+    .ritual-item:last-child {
+      border-right: 0;
+    }
+
+    .ritual-num {
+      color: rgba(245,240,232,.45);
+      font-size: 10px;
+      letter-spacing: .15em;
+    }
+
+    .ritual-item h3 {
+      margin-top: 65px;
+
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-weight: 400;
+    }
+
+    .ritual-item p {
+      margin-top: 15px;
+
+      color: rgba(245,240,232,.58);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+
+    /* =====================================================
+       BOOKING
+       ===================================================== */
+
+    .booking {
+      background: var(--wine);
+      color: var(--white);
+    }
+
+    .booking-grid {
+      display: grid;
+      grid-template-columns: 1fr .8fr;
+      gap: 80px;
+      align-items: end;
+    }
+
+    .booking h2 {
+      margin-top: 18px;
+
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(52px, 7vw, 100px);
+      line-height: .88;
+      font-weight: 400;
+      letter-spacing: -.06em;
+    }
+
+    .booking p {
+      max-width: 520px;
+      margin-top: 28px;
+
+      color: rgba(255,253,249,.7);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .booking-card {
+      padding: 30px;
+
+      border: 1px solid rgba(255,253,249,.25);
+      background: rgba(255,253,249,.05);
+    }
+
+    .booking-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+
+      padding: 16px 0;
+
+      border-bottom: 1px solid rgba(255,253,249,.16);
+
+      font-size: 12px;
+    }
+
+    .booking-line span:first-child {
+      color: rgba(255,253,249,.55);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .booking-card .btn {
+      width: 100%;
+      margin-top: 25px;
+
+      border-color: white;
+      color: white;
+    }
+
+    .booking-card .btn:hover {
+      background: white;
+      color: var(--wine);
+    }
+
+
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+
+    footer {
+      padding: 70px 0 25px;
+
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr;
+      gap: 50px;
+
+      padding-bottom: 70px;
+    }
+
+    .footer-brand {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 36px;
+      letter-spacing: .08em;
+    }
+
+    .footer-description {
+      max-width: 350px;
+      margin-top: 20px;
+
+      color: rgba(245,240,232,.55);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .footer-column h4 {
+      margin-bottom: 18px;
+
+      color: rgba(245,240,232,.45);
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .footer-column a,
+    .footer-column p {
+      display: block;
+      margin-bottom: 9px;
+
+      color: rgba(245,240,232,.8);
+      font-size: 12px;
+    }
+
+    .footer-column a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+
+      padding-top: 20px;
+
+      border-top: 1px solid rgba(245,240,232,.12);
+
+      color: rgba(245,240,232,.35);
+      font-size: 9px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+
+    /* =====================================================
+       REVEAL
+       ===================================================== */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+
+      transition:
+        opacity .8s var(--ease),
+        transform .8s var(--ease);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+    /* =====================================================
+       MOBILE
+       ===================================================== */
+
+    @media (max-width: 900px) {
+
+      :root {
+        --header-height: 70px;
+      }
+
+      .container {
+        width: min(100% - 30px, 680px);
+      }
+
+      .section {
+        padding: 85px 0;
+      }
+
+      .desktop-nav {
+        display: none;
+      }
+
+      .menu-button {
+        display: block;
+      }
+
+      .hero {
+        display: block;
+      }
+
+      .hero-copy {
+        min-height: auto;
+        padding: 90px 20px 65px;
+      }
+
+      .hero-copy h1 {
+        font-size: clamp(58px, 18vw, 105px);
+      }
+
+      .hero-image {
+        min-height: 65svh;
+      }
+
+      .intro-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .service-row {
+        grid-template-columns: 45px 1fr auto;
+        gap: 12px;
+      }
+
+      .service-desc {
+        display: none;
+      }
+
+      .look-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .look-card:nth-child(2),
+      .look-card:nth-child(3) {
+        margin-top: 0;
+      }
+
+      .look-card:nth-child(3) {
+        grid-column: 1 / -1;
+        width: 65%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .atelier-grid {
+        grid-template-columns: 1fr;
+        gap: 45px;
+      }
+
+      .ritual-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .ritual-item:nth-child(2) {
+        border-right: 0;
+      }
+
+      .ritual-item:nth-child(3),
+      .ritual-item:nth-child(4) {
+        border-bottom: 0;
+      }
+
+      .booking-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-brand-block {
+        grid-column: 1 / -1;
+      }
+    }
+
+
+    @media (max-width: 560px) {
+
+      .header-inner {
+        width: calc(100% - 26px);
+      }
+
+      .brand {
+        font-size: 18px;
+      }
+
+      .mobile-drawer {
+        width: 88vw;
+        padding-left: 30px;
+        padding-right: 30px;
+      }
+
+      .drawer-links a {
+        font-size: 31px;
+      }
+
+      .hero-copy {
+        padding: 75px 18px 55px;
+      }
+
+      .hero-copy h1 {
+        font-size: clamp(54px, 19vw, 90px);
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .hero-image {
+        min-height: 58svh;
+      }
+
+      .section-heading h2 {
+        font-size: 45px;
+      }
+
+      .service-row {
+        grid-template-columns: 35px 1fr;
+      }
+
+      .service-price {
+        grid-column: 2;
+        text-align: left;
+      }
+
+      .look-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .look-card:nth-child(3) {
+        grid-column: auto;
+        width: 100%;
+      }
+
+      .ritual-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ritual-item,
+      .ritual-item:not(:first-child) {
+        padding: 25px 0;
+        border-right: 0;
+        border-bottom: 1px solid rgba(245,240,232,.18);
+      }
+
+      .ritual-item:last-child {
+        border-bottom: 0;
+      }
+
+      .ritual-item h3 {
+        margin-top: 35px;
+      }
+
+      .booking h2 {
+        font-size: 57px;
+      }
+
+      .booking-card {
+        padding: 22px;
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .footer-brand-block {
+        grid-column: auto;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
+
+  <header class="site-header" id="siteHeader">
+
+    <div class="header-inner">
+
+      <a href="#top" class="brand">
+        AURELIA
+      </a>
+
+      <nav class="desktop-nav">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#looks">Looks</a>
+        <a href="#atelier">Atelier</a>
+        <a href="#contact">Contact</a>
+
+        <a
+          class="nav-book"
+          href="https://wa.me/2347051276743?text=Hello%20AURELIA%20HAUS%2C%20I%27d%20like%20to%20book%20an%20appointment."
+          target="_blank"
+          rel="noopener"
+        >
+          Book
+        </a>
+      </nav>
+
+      <button
+        class="menu-button"
+        id="menuButton"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+      >
+        <span></span>
+        <span></span>
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       MOBILE NAVIGATION
+       OUTSIDE HEADER — IMPORTANT
+       ===================================================== -->
+
+  <div
+    class="mobile-overlay"
+    id="mobileOverlay"
+    aria-hidden="true"
+  ></div>
+
+
+  <aside
+    class="mobile-drawer"
+    id="mobileDrawer"
+    aria-hidden="true"
+  >
+
+    <div class="drawer-label">
+      AURELIA HAUS · MENU
+    </div>
+
+    <nav class="drawer-links">
+
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#looks">Looks</a>
+      <a href="#atelier">Atelier</a>
+      <a href="#contact">Contact</a>
+
+    </nav>
+
+    <a
+      class="btn btn-dark drawer-book"
+      href="https://wa.me/2347051276743?text=Hello%20AURELIA%20HAUS%2C%20I%27d%20like%20to%20book%20an%20appointment."
+      target="_blank"
+      rel="noopener"
+    >
+      Book an appointment
+    </a>
+
+    <div class="drawer-footer">
+      Lagos · Nigeria · By appointment
+    </div>
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN
+       ===================================================== -->
+
+  <main id="top">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <div class="hero-copy">
+
+        <div class="eyebrow">
+          Hair Atelier · Lagos
+        </div>
+
+        <h1>
+          Hair<br>
+          <em>with intention.</em>
+        </h1>
+
+        <p>
+          AURELIA HAUS is a contemporary hair atelier for women
+          who want beauty that feels personal, refined and entirely
+          their own.
+        </p>
+
+        <div class="hero-actions">
+
+          <a class="btn btn-dark" href="#contact">
+            Book an appointment
+          </a>
+
+          <a class="btn" href="#looks">
+            Explore the work
+          </a>
+
+        </div>
+
+        <div class="hero-note">
+          Lagos · Nigeria · By appointment
+        </div>
+
+      </div>
+
+
+      <div class="hero-image">
+
+        <img
+          src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1400&q=85"
+          alt="Elegant hairstyling"
+          onerror="this.style.display='none'"
+        >
+
+        <div class="hero-caption">
+          Aurelia Haus / 01
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- MARQUEE -->
+
+    <div class="marquee">
+
+      <div class="marquee-track">
+
+        <span>Cut</span>
+        <i></i>
+        <span>Colour</span>
+        <i></i>
+        <span>Texture</span>
+        <i></i>
+        <span>Care</span>
+        <i></i>
+        <span>Style</span>
+        <i></i>
+
+        <span>Cut</span>
+        <i></i>
+        <span>Colour</span>
+        <i></i>
+        <span>Texture</span>
+        <i></i>
+        <span>Care</span>
+        <i></i>
+        <span>Style</span>
+        <i></i>
+
+      </div>
+
+    </div>
+
+
+    <!-- ABOUT -->
+
+    <section class="section intro" id="about">
+
+      <div class="container">
+
+        <div class="intro-grid">
+
+          <div class="reveal">
+
+            <div class="intro-stamp">
+              Beauty<br>
+              in detail<br>
+              since 2026
+            </div>
+
+          </div>
+
+          <div class="intro-copy reveal">
+
+            <div class="eyebrow">
+              The house
+            </div>
+
+            <h2>
+              Your hair should feel like
+              <em>you.</em>
+            </h2>
+
+            <p>
+              We believe great hair is more than a finished look.
+              It is proportion, texture, movement and confidence
+              working together. Every appointment begins with a
+              conversation and ends with something designed around
+              you.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SERVICES -->
+
+    <section class="section services" id="services">
+
+      <div class="container">
+
+        <div class="section-heading reveal">
+
+          <div class="eyebrow">
+            Services
+          </div>
+
+          <h2>
+            Considered<br>
+            transformations.
+          </h2>
+
+          <p>
+            Choose your starting point. Your stylist will refine
+            the final service around your hair, lifestyle and
+            desired result.
+          </p>
+
+        </div>
+
+
+        <div class="service-list">
+
+          <a
+            class="service-row reveal"
+            href="https://wa.me/2347051276743?text=Hello%20AURELIA%20HAUS%2C%20I%27m%20interested%20in%20a%20signature%20cut."
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="service-number">01</span>
+            <span class="service-name">Signature Cut</span>
+            <span class="service-desc">
+              Shape, movement and finishing tailored to your features.
+            </span>
+            <span class="service-price">Enquire</span>
+          </a>
+
+
+          <a
+            class="service-row reveal"
+            href="https://wa.me/2347051276743?text=Hello%20AURELIA%20HAUS%2C%20I%27m%20interested%20in%20colour."
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="service-number">02</span>
+            <span class="service-name">Colour</span>
+            <span class="service-desc">
+              Dimensional colour designed to complement your complexion.
+            </span>
+            <span class="service-price">Enquire</span>
+          </a>
+
+
+          <a
+            class="service-row reveal"
+            href="https://wa.me/2347051276743?text=Hello%20AURELIA%20HAUS%2C%20I%27m%20interested%20in%20a%20silk%20press."
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="service-number">03</span>
+            <span class="service-name">Silk Press</span>
+            <span class="service-desc">
+              Smooth, polished movement with a soft editorial finish.
+            </span>
+            <span class="service-price">Enquire</span>
+          </a>
+
+
+          <a
+            class="service-row reveal"
+            href="https://wa.me/2347051276743?text=Hello%20AURELIA%20HAUS%2C%20I%27m%20interested%20in%20protective%20styling."
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="service-number">04</span>
+            <span class="service-name">Protective Styling</span>
+            <span class="service-desc">
+              Braids, twists and protective looks with careful finishing.
+            </span>
+            <span class="service-price">Enquire</span>
+          </a>
+
+
+          <a
+            class="service-row reveal"
+            href="https://wa.me/2347051276743?text=Hello%20AURELIA%20HAUS%2C%20I%27m%20interested%20in%20a%20hair%20care%20session."
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="service-number">05</span>
+            <span class="service-name">Hair Ritual</span>
+            <span class="service-desc">
+              Deep care, scalp attention and restorative treatment.
+            </span>
+            <span class="service-price">Enquire</span>
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- LOOKS -->
+
+    <section class="section looks" id="looks">
+
+      <div class="container">
+
+        <div class="section-heading reveal">
+
+          <div class="eyebrow">
+            Selected work
+          </div>
+
+          <h2>
+            The look<br>
+            is in the detail.
+          </h2>
+
+        </div>
+
+
+        <div class="look-grid">
+
+          <article class="look-card reveal">
+
+            <div class="look-image">
+
+              <img
+                src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=1000&q=85"
+                alt="Editorial hair styling"
+                loading="lazy"
+                onerror="this.style.display='none'"
+              >
+
+            </div>
+
+            <div class="look-info">
+              <h3>Soft Structure</h3>
+              <p>Cut · Movement · Finish</p>
+            </div>
+
+          </article>
+
+
+          <article class="look-card reveal">
+
+            <div class="look-image">
+
+              <img
+                src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1000&q=85"
+                alt="Styled hair"
+                loading="lazy"
+                onerror="this.style.display='none'"
+              >
+
+            </div>
+
+            <div class="look-info">
+              <h3>Modern Texture</h3>
+              <p>Texture · Shape · Detail</p>
+            </div>
+
+          </article>
+
+
+          <article class="look-card reveal">
+
+            <div class="look-image">
+
+              <img
+                src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=1000&q=85"
+                alt="Elegant hairstyle"
+                loading="lazy"
+                onerror="this.style.display='none'"
+              >
+
+            </div>
+
+            <div class="look-info">
+              <h3>Quiet Glamour</h3>
+              <p>Colour · Finish · Polish</p>
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ATELIER -->
+
+    <section class="section atelier" id="atelier">
+
+      <div class="container">
+
+        <div class="atelier-grid">
+
+          <div class="atelier-image reveal">
+
+            <img
+              src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=1200&q=85"
+              alt="Hair salon"
+              loading="lazy"
+              onerror="this.style.display='none'"
+            >
+
+          </div>
+
+
+          <div class="atelier-copy reveal">
+
+            <div class="eyebrow">
+              Inside the atelier
+            </div>
+
+            <h2>
+              Slow beauty.<br>
+              Sharp results.
+            </h2>
+
+            <p>
+              AURELIA HAUS was created around a simple idea:
+              the best appointments should never feel rushed.
+              From consultation to finishing, we make room for
+              precision, conversation and the little details that
+              make a look yours.
+            </p>
+
+            <p>
+              Located in Lagos and available by appointment.
+            </p>
+
+            <div class="atelier-signature">
+              — Aurelia
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- RITUAL -->
+
+    <section class="section ritual">
+
+      <div class="container">
+
+        <div class="section-heading reveal">
+
+          <div class="eyebrow">
+            The ritual
+          </div>
+
+          <h2>
+            Every appointment,<br>
+            intentionally.
+          </h2>
+
+        </div>
+
+
+        <div class="ritual-grid">
+
+          <div class="ritual-item reveal">
+            <div class="ritual-num">01 / CONSULT</div>
+            <h3>Understand</h3>
+            <p>
+              We talk through your hair, your routine and exactly
+              what you want to achieve.
+            </p>
+          </div>
+
+
+          <div class="ritual-item reveal">
+            <div class="ritual-num">02 / PREP</div>
+            <h3>Prepare</h3>
+            <p>
+              Your hair is prepared carefully so the final result
+              has the strongest possible foundation.
+            </p>
+          </div>
+
+
+          <div class="ritual-item reveal">
+            <div class="ritual-num">03 / CREATE</div>
+            <h3>Create</h3>
+            <p>
+              Shape, colour, texture and finish are refined with
+              attention to proportion and detail.
+            </p>
+          </div>
+
+
+          <div class="ritual-item reveal">
+            <div class="ritual-num">04 / FINISH</div>
+            <h3>Reveal</h3>
+            <p>
+              We finish the look and show you how to maintain the
+              result between appointments.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- BOOKING -->
+
+    <section class="section booking" id="contact">
+
+      <div class="container">
+
+        <div class="booking-grid">
+
+          <div class="reveal">
+
+            <div class="eyebrow">
+              Appointments
+            </div>
+
+            <h2>
+              Let's create<br>
+              your look.
+            </h2>
+
+            <p>
+              Tell us what you're looking for and we'll guide you
+              toward the right service. Appointments are handled
+              directly through WhatsApp.
+            </p>
+
+          </div>
+
+
+          <div class="booking-card reveal">
+
+            <div class="booking-line">
+              <span>Location</span>
+              <span>Lagos, Nigeria</span>
+            </div>
+
+            <div class="booking-line">
+              <span>Availability</span>
+              <span>By appointment</span>
+            </div>
+
+            <div class="booking-line">
+              <span>Booking</span>
+              <span>WhatsApp</span>
+            </div>
+
+            <a
+              class="btn"
+              href="https://wa.me/2347051276743?text=Hello%20AURELIA%20HAUS%2C%20I%27d%20like%20to%20book%20an%20appointment."
+              target="_blank"
+              rel="noopener"
+            >
+              Start your booking
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-brand-block">
+
+          <div class="footer-brand">
+            AURELIA
+          </div>
+
+          <p class="footer-description">
+            A contemporary hair atelier creating intentional,
+            expressive beauty in Lagos.
+          </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h4>Navigate</h4>
+
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#looks">Looks</a>
+          <a href="#atelier">Atelier</a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+          <h4>Connect</h4>
+
+          <a
+            href="https://wa.me/2347051276743"
+            target="_blank"
+            rel="noopener"
+          >
+            WhatsApp
+          </a>
+
+          <a href="#contact">
+            Book an appointment
+          </a>
+
+          <p>
+            Lagos, Nigeria
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer-bottom">
+
+        <span>
+          © <span id="year"></span> AURELIA HAUS
+        </span>
+
+        <span>
+          Hair · Beauty · Atelier
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+
+  <script>
+
+    const header =
+      document.getElementById("siteHeader");
+
+    const menuButton =
+      document.getElementById("menuButton");
+
+    const mobileDrawer =
+      document.getElementById("mobileDrawer");
+
+    const mobileOverlay =
+      document.getElementById("mobileOverlay");
+
+
+    /* =====================================================
+       MENU STATE
+       ===================================================== */
+
+    let menuIsOpen = false;
+
+
+    function openMenu() {
+
+      if (menuIsOpen) return;
+
+      menuIsOpen = true;
+
+      menuButton.classList.add("active");
+
+      mobileDrawer.classList.add("open");
+
+      mobileOverlay.classList.add("open");
+
+      menuButton.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+      menuButton.setAttribute(
+        "aria-label",
+        "Close menu"
+      );
+
+      mobileDrawer.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+      mobileOverlay.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+      document.body.classList.add("menu-open");
+    }
+
+
+    function closeMenu() {
+
+      if (!menuIsOpen) return;
+
+      menuIsOpen = false;
+
+      menuButton.classList.remove("active");
+
+      mobileDrawer.classList.remove("open");
+
+      mobileOverlay.classList.remove("open");
+
+      menuButton.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+      menuButton.setAttribute(
+        "aria-label",
+        "Open menu"
+      );
+
+      mobileDrawer.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      mobileOverlay.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      document.body.classList.remove("menu-open");
+    }
+
+
+    function toggleMenu() {
+
+      if (menuIsOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+
+    }
+
+
+    /* =====================================================
+       MENU BUTTON
+       ===================================================== */
+
+    menuButton.addEventListener(
+      "click",
+      toggleMenu
+    );
+
+
+    /* =====================================================
+       OVERLAY
+       ===================================================== */
+
+    mobileOverlay.addEventListener(
+      "click",
+      closeMenu
+    );
+
+
+    /* =====================================================
+       MOBILE LINKS
+       ===================================================== */
+
+    document
+      .querySelectorAll(".drawer-links a")
+      .forEach(link => {
+
+        link.addEventListener(
+          "click",
+          function(event) {
+
+            const href =
+              this.getAttribute("href");
+
+            if (
+              !href ||
+              !href.startsWith("#")
+            ) {
+              closeMenu();
+              return;
+            }
+
+            const target =
+              document.querySelector(href);
+
+            if (!target) {
+              closeMenu();
+              return;
+            }
+
+            event.preventDefault();
+
+            closeMenu();
+
+            /*
+              Wait until the drawer has started closing,
+              then scroll the page.
+            */
+
+            setTimeout(() => {
+
+              const headerHeight =
+                header.getBoundingClientRect().height;
+
+              const targetPosition =
+                target.getBoundingClientRect().top +
+                window.scrollY -
+                headerHeight -
+                10;
+
+              window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth"
+              });
+
+            }, 80);
+
+          }
+        );
+
+      });
+
+
+    /* =====================================================
+       ESCAPE
+       ===================================================== */
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Escape") {
+          closeMenu();
+        }
+
+      }
+    );
+
+
+    /* =====================================================
+       DESKTOP RESIZE
+       ===================================================== */
+
+    window.addEventListener(
+      "resize",
+      function() {
+
+        if (window.innerWidth > 900) {
+          closeMenu();
+        }
+
+      }
+    );
+
+
+    /* =====================================================
+       HEADER SCROLL
+       ===================================================== */
+
+    function updateHeader() {
+
+      if (window.scrollY > 20) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+
+    }
+
+    updateHeader();
+
+    window.addEventListener(
+      "scroll",
+      updateHeader,
+      { passive: true }
+    );
+
+
+    /* =====================================================
+       REVEAL ANIMATION
+       ===================================================== */
+
+    const revealElements =
+      document.querySelectorAll(".reveal");
+
+
+    if ("IntersectionObserver" in window) {
+
+      const observer =
+        new IntersectionObserver(
+          function(entries) {
+
+            entries.forEach(entry => {
+
+              if (entry.isIntersecting) {
+
+                entry.target.classList.add(
+                  "visible"
+                );
+
+                observer.unobserve(
+                  entry.target
+                );
+
+              }
+
+            });
+
+          },
+          {
+            threshold: .12,
+            rootMargin: "0px 0px -40px 0px"
+          }
+        );
+
+
+      revealElements.forEach(element => {
+        observer.observe(element);
+      });
+
+    } else {
+
+      revealElements.forEach(element => {
+        element.classList.add("visible");
+      });
+
+    }
+
+
+    /* =====================================================
+       YEAR
+       ===================================================== */
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+
+    /* =====================================================
+       PAGE SHOW RESET
+       ===================================================== */
+
+    window.addEventListener(
+      "pageshow",
+      function() {
+        closeMenu();
+      }
+    );
+
+  </script>
+
+</body>
+</html>
